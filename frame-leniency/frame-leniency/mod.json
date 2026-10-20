@@ -8,13 +8,16 @@
 	},
 	"id": "showcase.frame-leniency",
 	"name": "Frame Leniency",
-	"version": "v1.0.0",
+	"version": "v1.2.0",
 	"developer": "You",
 	"description": "A couple of forgiving frames on hazards and tight inputs, for recording showcases without a macro.",
+	"dependencies": {
+		"geode.node-ids": ">=v1.23.3"
+	},
 	"settings": {
 		"hazard-grace": {
 			"name": "Hazard grace",
-			"description": "Survive brief contact with spikes and block walls. You only die if the contact lasts longer than the grace window.",
+			"description": "Survive brief contact with spikes and block walls. If you're still touching the hazard when the grace window runs out, you die as normal.",
 			"type": "bool",
 			"default": true
 		},
@@ -26,23 +29,41 @@
 			"min": 0,
 			"max": 8
 		},
+		"auto-release": {
+			"name": "Auto-release on contact",
+			"description": "In ship, wave and robot: the moment you touch a hazard, the mod lets go of the button for you, so you start moving away from it during the grace window. If you're still holding once you're clear, the hold comes back. Needs Hazard grace on, ideally with 3 or more frames.",
+			"type": "bool",
+			"default": true
+		},
 		"input-buffer": {
 			"name": "Input buffering",
-			"description": "Very short taps are held for a few extra frames, so a click that comes slightly early still catches the landing or the orb.",
+			"description": "After you let go of a click, it stays held for a few extra frames until it does something (jump, orb, dash). A click that comes slightly early still catches the landing or the orb.",
 			"type": "bool",
 			"default": true
 		},
 		"buffer-ticks": {
 			"name": "Buffer window (physics frames)",
-			"description": "Minimum time a click is held down, in physics frames (240 per second).",
+			"description": "How many frames a click is remembered after you let go. GD runs physics at 240 frames per second, so 4 frames is about 17 ms.",
 			"type": "int",
 			"default": 2,
 			"min": 0,
-			"max": 12
+			"max": 8
+		},
+		"buffer-ship-wave": {
+			"name": "Buffer in ship & wave",
+			"description": "Also buffer clicks in ship and wave. Off by default, because those modes depend on exactly how long you hold.",
+			"type": "bool",
+			"default": false
 		},
 		"show-indicator": {
 			"name": "Show indicator",
 			"description": "Shows a small 'Leniency' label in the corner while you play.",
+			"type": "bool",
+			"default": true
+		},
+		"show-saves": {
+			"name": "Show save counter",
+			"description": "Adds to the label how many times this attempt the grace window and the input buffer saved you. Handy for tuning the windows down to what you actually need.",
 			"type": "bool",
 			"default": true
 		}
