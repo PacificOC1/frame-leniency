@@ -1,0 +1,50 @@
+{
+	"geode": "5.11.2",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "showcase.frame-leniency",
+	"name": "Frame Leniency",
+	"version": "v1.0.0",
+	"developer": "You",
+	"description": "A couple of forgiving frames on hazards and tight inputs, for recording showcases without a macro.",
+	"settings": {
+		"hazard-grace": {
+			"name": "Hazard grace",
+			"description": "Survive brief contact with spikes and block walls. You only die if the contact lasts longer than the grace window.",
+			"type": "bool",
+			"default": true
+		},
+		"grace-ticks": {
+			"name": "Grace window (physics frames)",
+			"description": "How many consecutive frames of contact are forgiven. GD runs physics at 240 frames per second, so 2 frames is about 8 ms.",
+			"type": "int",
+			"default": 2,
+			"min": 0,
+			"max": 8
+		},
+		"input-buffer": {
+			"name": "Input buffering",
+			"description": "Very short taps are held for a few extra frames, so a click that comes slightly early still catches the landing or the orb.",
+			"type": "bool",
+			"default": true
+		},
+		"buffer-ticks": {
+			"name": "Buffer window (physics frames)",
+			"description": "Minimum time a click is held down, in physics frames (240 per second).",
+			"type": "int",
+			"default": 2,
+			"min": 0,
+			"max": 12
+		},
+		"show-indicator": {
+			"name": "Show indicator",
+			"description": "Shows a small 'Leniency' label in the corner while you play.",
+			"type": "bool",
+			"default": true
+		}
+	}
+}
