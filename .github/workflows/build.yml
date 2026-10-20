@@ -15,8 +15,6 @@ jobs:
         uses: geode-sdk/build-geode-mod@main
         with:
           path: frame-leniency/frame-leniency
-          bindings-ref: f8aec5d1f3df76d840dfd2609f02cef30dc6efdf
-
       - name: Upload it
         uses: actions/upload-artifact@v4
         with:
