@@ -1,0 +1,52 @@
+{
+	"geode": "5.11.2",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "showcase.input-snap",
+	"name": "Input Snap (test build)",
+	"version": "v0.1.0",
+	"developer": "You",
+	"description": "Test build: rewinds a few physics frames instead of dying, to check that rewinding works before the auto-correct is built on it.",
+	"settings": {
+		"enabled": {
+			"name": "Rewind instead of dying",
+			"description": "When you would die, jump back a few frames and keep playing.",
+			"type": "bool",
+			"default": true
+		},
+		"rewind-frames": {
+			"name": "Rewind distance (physics frames)",
+			"description": "How far back to jump. 240 frames is one second, so 10 is about 42 ms. Use 40+ while testing so the jump is easy to see.",
+			"type": "int",
+			"default": 10,
+			"min": 1,
+			"max": 120
+		},
+		"snapshot-interval": {
+			"name": "Snapshot every N frames",
+			"description": "1 saves the game every physics frame (most precise, most work). Raise it if the overlay shows high snapshot cost or the game stutters.",
+			"type": "int",
+			"default": 1,
+			"min": 1,
+			"max": 8
+		},
+		"max-in-a-row": {
+			"name": "Max rewinds in a row",
+			"description": "If you keep dying straight after a rewind, the real death goes through after this many tries.",
+			"type": "int",
+			"default": 3,
+			"min": 1,
+			"max": 20
+		},
+		"show-overlay": {
+			"name": "Show test overlay",
+			"description": "Bottom-left readout: snapshot cost, number of rewinds, how far back the last one went.",
+			"type": "bool",
+			"default": true
+		}
+	}
+}

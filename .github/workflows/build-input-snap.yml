@@ -1,0 +1,26 @@
+name: Build Input Snap
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "input-snap/**"
+      - ".github/workflows/build-input-snap.yml"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the .geode file
+        id: build
+        uses: geode-sdk/build-geode-mod@main
+        with:
+          path: input-snap
+
+      - name: Upload it
+        uses: actions/upload-artifact@v4
+        with:
+          name: input-snap
+          path: ${{ steps.build.outputs.build-output }}
