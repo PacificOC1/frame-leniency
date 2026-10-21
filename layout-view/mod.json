@@ -1,0 +1,107 @@
+{
+	"geode": "5.11.2",
+	"gd": {
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
+	},
+	"id": "showcase.layout-view",
+	"name": "Layout View",
+	"version": "v0.1.0",
+	"developer": "You",
+	"description": "Play any level as a bare layout: gameplay objects only, in plain colours. Can also save a layout copy as a new level.",
+	"dependencies": {
+		"geode.node-ids": ">=v1.23.3"
+	},
+	"settings": {
+		"enabled": {
+			"name": "Layout view",
+			"description": "Draw levels as a bare layout. You can also switch it from the <cg>LV</c> button in the pause menu, or with the keybind below.",
+			"type": "bool",
+			"default": false
+		},
+		"toggle-key": {
+			"name": "Toggle keybind",
+			"description": "Switches layout view on or off while you're in a level.",
+			"type": "keybind",
+			"category": "gameplay",
+			"default": "Ctrl+L"
+		},
+		"view-title": {
+			"type": "title",
+			"name": "What's shown"
+		},
+		"hide-no-touch": {
+			"name": "Hide No Touch and Passable objects",
+			"description": "Also hide objects that can't hurt you or that you pass through, since they're decoration in practice. Applies to the layout copy too.",
+			"type": "bool",
+			"default": true
+		},
+		"show-invisible": {
+			"name": "Show invisible gameplay objects",
+			"description": "Draw every gameplay object fully opaque, even ones the level fades out or makes invisible with alpha.",
+			"type": "bool",
+			"default": true
+		},
+		"hide-particles": {
+			"name": "Hide particles",
+			"description": "Hide the particles around orbs, pads and portals. Particle objects are always hidden.",
+			"type": "bool",
+			"default": true
+		},
+		"skip-shaders": {
+			"name": "Skip shader effects",
+			"description": "Draw the level without shader trigger effects (blur, glitch, colour shifts...). If a level with shaders looks wrong in layout view, turn this off.",
+			"type": "bool",
+			"default": true
+		},
+		"colours-title": {
+			"type": "title",
+			"name": "Colours"
+		},
+		"object-colour": {
+			"name": "Object colour",
+			"description": "Main colour of every gameplay object.",
+			"type": "rgb",
+			"default": [255, 255, 255]
+		},
+		"detail-colour": {
+			"name": "Detail colour",
+			"description": "Second colour of objects that have one.",
+			"type": "rgb",
+			"default": [160, 160, 160]
+		},
+		"hazard-colour": {
+			"name": "Hazard colour",
+			"description": "Main colour of spikes, saws and other hazards. Set it to something like red to make them stand out.",
+			"type": "rgb",
+			"default": [255, 255, 255]
+		},
+		"background-colour": {
+			"name": "Background colour",
+			"type": "rgb",
+			"default": [40, 40, 40]
+		},
+		"ground-colour": {
+			"name": "Ground colour",
+			"type": "rgb",
+			"default": [25, 25, 25]
+		},
+		"line-colour": {
+			"name": "Ground line colour",
+			"type": "rgb",
+			"default": [255, 255, 255]
+		},
+		"copy-title": {
+			"type": "title",
+			"name": "Layout copy"
+		},
+		"copy-drop-visual-triggers": {
+			"name": "Leave out visual triggers",
+			"description": "Leave colour, pulse, shake, gradient, shader, background/ground change and particle triggers out of the copy. Move, toggle, spawn and every other gameplay trigger are always kept.",
+			"type": "bool",
+			"default": true
+		}
+	}
+}
