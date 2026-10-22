@@ -298,9 +298,12 @@ class $modify(LVPlayLayer, PlayLayer) {
 class $modify(LVShaderLayer, ShaderLayer) {
     // Draws the level without the shader pass. The render-texture sprite is
     // hidden for that frame in case it's a child, so a stale shader frame
-    // can't be drawn over the level.
+    // can't be drawn over the level. Only done when the level is one of our
+    // own children: otherwise drawing them directly wouldn't draw the level,
+    // so the shaders are left on rather than risk a black screen.
     void visit() {
-        if (!lv::s_skipShaders || !lv::s_on || !lv::s_layer || m_gameLayer != lv::s_layer) {
+        if (!lv::s_skipShaders || !lv::s_on || !lv::s_layer || m_gameLayer != lv::s_layer ||
+            m_gameLayer->getParent() != this) {
             return ShaderLayer::visit();
         }
         bool spriteVisible = m_sprite && m_sprite->isVisible();
@@ -326,7 +329,17 @@ layout::ObjectInfo infoFor(GameObject* obj) {
     info.trigger = obj->m_isTrigger;
     info.colorTrigger = obj->m_isColorTrigger;
     info.hazard = isHazard(obj);
+    info.solid = obj->m_objectType == GameObjectType::Solid || obj->m_objectType == GameObjectType::Slope;
     return info;
+}
+
+// Your own level, uploaded and downloaded again (so it's no longer an
+// editor level).
+bool isOwnLevel(GJGameLevel* level) {
+    int account = GJAccountManager::get()->m_accountID;
+    if (account > 0 && level->m_accountID.value() == account) return true;
+    int user = GameManager::get()->m_playerUserID.value();
+    return user > 0 && level->m_userID.value() == user;
 }
 
 bool copyAllowed(GJGameLevel* level, std::string& why) {
@@ -338,6 +351,7 @@ bool copyAllowed(GJGameLevel* level, std::string& why) {
             break;
     }
     if (level->m_password.value() == 1) return true; // free to copy
+    if (isOwnLevel(level)) return true;
     why = "This level isn't free to copy, so the mod won't save a layout copy of it. "
           "The layout view itself still works.";
     return false;
@@ -382,6 +396,9 @@ std::string saveLayoutCopy(PlayLayer* pl) {
     layout::CopyOptions opts;
     opts.dropNoTouch = mod->getSettingValue<bool>("hide-no-touch");
     opts.dropVisualTriggers = mod->getSettingValue<bool>("copy-drop-visual-triggers");
+    opts.dropAlphaTriggers = mod->getSettingValue<bool>("copy-drop-alpha-triggers");
+    opts.dropUnusedTriggers = mod->getSettingValue<bool>("copy-drop-unused-triggers");
+    opts.dropDuplicates = mod->getSettingValue<bool>("copy-drop-duplicates");
     opts.dropGlow = true;
     opts.background = rgb(s_colours.background);
     opts.ground = rgb(s_colours.ground);
@@ -408,12 +425,20 @@ std::string saveLayoutCopy(PlayLayer* pl) {
     copy->m_levelDesc = utils::base64::encode(credit, utils::base64::Base64Variant::UrlWithPad);
     LocalLevelManager::sharedState()->save();
 
-    return fmt::format(
+    auto message = fmt::format(
         "Saved <cy>{}</c> to your created levels.\n"
-        "Kept {} of {} objects; left out {} decoration, {} no-touch/passable and {} visual triggers.",
+        "Kept <cg>{}</c> of {} objects. Left out {} decoration, {} no-touch/passable, "
+        "{} visual triggers, {} unused triggers and {} stacked duplicates.",
         std::string(copy->m_levelName), stats.kept, stats.total, stats.droppedDecoration,
-        stats.droppedNoTouch, stats.droppedTriggers
+        stats.droppedNoTouch, stats.droppedTriggers, stats.droppedUnused, stats.droppedDuplicates
     );
+    if (stats.anchors > 0) {
+        message += fmt::format(
+            "\n{} decoration/no-touch objects stay, hidden, because triggers use their position.",
+            stats.anchors
+        );
+    }
+    return message;
 }
 
 } // namespace lv

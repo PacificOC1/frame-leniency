@@ -8,7 +8,7 @@
 	},
 	"id": "showcase.layout-view",
 	"name": "Layout View",
-	"version": "v0.1.0",
+	"version": "v0.2.0",
 	"developer": "You",
 	"description": "Play any level as a bare layout: gameplay objects only, in plain colours. Can also save a layout copy as a new level.",
 	"dependencies": {
@@ -99,7 +99,25 @@
 		},
 		"copy-drop-visual-triggers": {
 			"name": "Leave out visual triggers",
-			"description": "Leave colour, pulse, shake, gradient, shader, background/ground change and particle triggers out of the copy. Move, toggle, spawn and every other gameplay trigger are always kept.",
+			"description": "Leave colour, pulse, shake, gradient, shader, background/ground change, particle, ghost trail and show/hide player triggers out of the copy. Move, toggle, spawn and every other gameplay trigger are kept.",
+			"type": "bool",
+			"default": true
+		},
+		"copy-drop-alpha-triggers": {
+			"name": "Leave out alpha and fade triggers",
+			"description": "Opacity never changes gameplay, so objects that fade or go invisible are simply always shown in the copy.",
+			"type": "bool",
+			"default": true
+		},
+		"copy-drop-unused-triggers": {
+			"name": "Leave out unused triggers",
+			"description": "Move, spawn, toggle, rotate, follow, count, touch and similar triggers whose target group has nothing left in the copy (for example, it only held decoration) do nothing, so they're left out.",
+			"type": "bool",
+			"default": true
+		},
+		"copy-drop-duplicates": {
+			"name": "Merge stacked duplicates",
+			"description": "Blocks, spikes and slopes that are exact copies of another one in the same place (same rotation, scale, groups and settings) are kept once.",
 			"type": "bool",
 			"default": true
 		}
